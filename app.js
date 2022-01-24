@@ -1,14 +1,11 @@
-const Dollars = props => {
+
+const Currency = props => {
     const value = (props.amount * props.ratio).toFixed(2);
-    return (
-        <div>Amount in $: {props.amount > 0 ? value : ""}  </div>)
+
+        return (
+            <div>{props.title}{ props.amount > 0 ? value : ""} </div>)
 }
 
-const Euros = props => {
-    const value = (props.amount * props.ratio).toFixed(2);
-    return (
-        <div>Amount in €: { props.amount > 0 ? value : ""} </div>)
-}
 
 
 class CurrencyConverter extends React.Component {
@@ -32,8 +29,8 @@ class CurrencyConverter extends React.Component {
                         value={amount}
                         onChange={this.handleChange}
                     />
-                    <Dollars ratio={ratioDollar} amount={amount} />
-                    <Euros ratio={ratioEuro}  amount={amount} />
+                    <Currency ratio={ratioDollar} amount={amount} title="Amount in dollar: " />
+                    <Currency ratio={ratioEuro}  amount={amount}  title="Amount in euro: " />
                 </label>
             </>
         )
