@@ -1,6 +1,6 @@
 
 const Currency = props => {
-    const value = (props.amount * props.ratio).toFixed(2);
+    const value = (props.amount * props.ratio* props.price).toFixed(2);
 
         return (
             <div>{props.name}{ props.amount > 0 ? value : ""} </div>)
@@ -9,13 +9,18 @@ const Currency = props => {
 
 class CurrencyConverter extends React.Component {
     state = {
-        amount: 0,
-        product: "petrol",
-
+        amount: "",
+        product: "",
     }
 
 static defaultProps = {
-    currencies : [
+    currencies: [
+        {
+            id: 0,
+            name: "Pounds: ",
+            ratio: 1,
+        },
+
         {
             id: 1,
             name: "dollar: ",
@@ -31,7 +36,12 @@ static defaultProps = {
             name: "zloty: ",
             ratio: 4.75,
         },
-    ]
+    ],
+    prices: {
+        electricity: 0.17,
+        petrol: 1.48,
+        oranges: 2, 
+    }
 
 }
 
@@ -52,14 +62,19 @@ static defaultProps = {
     }
     handleSelect = e => {
         this.setState({
-            product: e.target.value,
+            amount: "",
+            product: e.target.value,   
         })
     }
+
+    selectPrice = product => {
+        return this.props.prices[product];
+    }
     render() {
-        const amount = this.state.amount;
-        const calculators = defaultProps.currencies.map( c => 
+        const {amount,product} = this.state;
+        const calculators = this.props.currencies.map( c => 
             (
-                <Currency key={c.id} ratio={c.ratio} amount={amount} name={c.name} />
+                <Currency key={c.id} ratio={c.ratio} amount={amount} name={c.name} price={this.selectPrice(product)} />
             ))
         return (
         <>
